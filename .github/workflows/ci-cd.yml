@@ -68,6 +68,7 @@ jobs:
   sonarcloud:
     needs: [backend-tests, frontend-tests]
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v3
         with:
@@ -85,11 +86,28 @@ jobs:
           name: frontend-test-results
           path: front/coverage/
 
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=moussier24
+            -Dsonar.projectKey=Moussier24_oc-dev-fullstack-p10
+            -Dsonar.sources=back/src/main/java,front/src
+            -Dsonar.tests=back/src/test/java,front/src/app/**/*.spec.ts
+            -Dsonar.java.binaries=back/target/classes
+            -Dsonar.java.test.binaries=back/target/test-classes
+            -Dsonar.coverage.jacoco.xmlReportPaths=back/target/site/jacoco/jacoco.xml
+            -Dsonar.typescript.lcov.reportPaths=front/coverage/lcov.info
 
   docker:
     needs: sonarcloud
