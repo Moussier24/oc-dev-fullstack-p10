@@ -49,10 +49,15 @@ jobs:
           cd front
           npm install
 
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
+
       - name: Run Frontend Tests
         run: |
           cd front
-          npm run test -- --no-watch --code-coverage
+          npm run test -- --no-watch --code-coverage --browsers=ChromeHeadless
 
       - name: Upload Frontend Test Results
         uses: actions/upload-artifact@v3
