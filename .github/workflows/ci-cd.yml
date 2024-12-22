@@ -41,9 +41,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: back
-          args: >
-            -Dsonar.projectKey=Moussier24_oc-dev-fullstack-p10-back
-            -Dsonar.organization=moussier24
 
       - name: Build and Push Backend Docker
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
