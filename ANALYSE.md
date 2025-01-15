@@ -54,19 +54,21 @@ Justification : Limiter l'accumulation de problèmes techniques qui pourraient r
 
 ### 3.1 Backend
 [Voir le rapport complet](https://sonarcloud.io/project/overview?id=moussier24_ocp10-back)
-- Couverture de tests : 45%
-- Dette technique : 8 jours
-- Bugs : 12
-- Vulnérabilités : 3
-- Code smells : 156
+- coverage: 38.8
+- bugs: 1
+- code_smells: 6
+- vulnerabilities: 0
+- sqale_index: 37
+
 
 ### 3.2 Frontend
 [Voir le rapport complet](https://sonarcloud.io/project/overview?id=moussier24_ocp10-front)
-- Couverture de tests : 38%
-- Dette technique : 6 jours
-- Bugs : 8
-- Vulnérabilités : 2
-- Code smells : 124
+- coverage: 47.6
+- bugs: 0
+- code_smells: 5
+- vulnerabilities: 0
+- sqale_index: 13
+
 
 Les métriques sont mises à jour automatiquement à chaque exécution du pipeline CI/CD et sont disponibles dans les résumés des actions GitHub. Pour une analyse détaillée et des tendances historiques, consultez les rapports SonarCloud liés ci-dessus.
 
