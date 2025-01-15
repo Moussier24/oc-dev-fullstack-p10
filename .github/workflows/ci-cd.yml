@@ -57,6 +57,20 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/bobapp-backend:latest
 
+      - name: Get SonarCloud Metrics
+        if: always()
+        run: |
+          echo "## Métriques SonarCloud $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "### Backend" >> $GITHUB_STEP_SUMMARY
+          curl --silent --header "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" \
+            "https://sonarcloud.io/api/measures/component?component=moussier24_ocp10-back&metricKeys=coverage,sqale_index,bugs,vulnerabilities,code_smells" \
+            | jq -r '.component.measures[] | "- \(.metric): \(.value)"' >> $GITHUB_STEP_SUMMARY
+
+          echo "### Frontend" >> $GITHUB_STEP_SUMMARY
+          curl --silent --header "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" \
+            "https://sonarcloud.io/api/measures/component?component=moussier24_ocp10-front&metricKeys=coverage,sqale_index,bugs,vulnerabilities,code_smells" \
+            | jq -r '.component.measures[] | "- \(.metric): \(.value)"' >> $GITHUB_STEP_SUMMARY
+
   frontend:
     runs-on: ubuntu-latest
     steps:
@@ -110,3 +124,17 @@ jobs:
           context: ./front
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/bobapp-frontend:latest
+
+      - name: Get SonarCloud Metrics
+        if: always()
+        run: |
+          echo "## Métriques SonarCloud $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "### Backend" >> $GITHUB_STEP_SUMMARY
+          curl --silent --header "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" \
+            "https://sonarcloud.io/api/measures/component?component=moussier24_ocp10-back&metricKeys=coverage,sqale_index,bugs,vulnerabilities,code_smells" \
+            | jq -r '.component.measures[] | "- \(.metric): \(.value)"' >> $GITHUB_STEP_SUMMARY
+
+          echo "### Frontend" >> $GITHUB_STEP_SUMMARY
+          curl --silent --header "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" \
+            "https://sonarcloud.io/api/measures/component?component=moussier24_ocp10-front&metricKeys=coverage,sqale_index,bugs,vulnerabilities,code_smells" \
+            | jq -r '.component.measures[] | "- \(.metric): \(.value)"' >> $GITHUB_STEP_SUMMARY
